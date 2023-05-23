@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator pothos {
+  provider = "prisma-pothos-types"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  image     String?
+  createdAt DateTime  @default(now())
+  email     String    @unique
+  name      String
+  password  String
+  role      Role      @default(USER)
+  helps     Help[]
+  Post      Post[]
+  Comment   Comment[]
+}
+
+model Help {
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  type           Help_type      @default(OTHER)
+  direction      help_direction
+  discription    String?
+  image          String?
+  completed      Boolean        @default(false)
+  votes          Int?           @default(0)
+  donor          String?
+  payment        Payment?
+  createdAt      DateTime       @default(now())
+  contact_number Int?
+  payment_number Int?
+  contact_type   Contact?
+  applicant      User           @relation(fields: [userId], references: [id])
+  userId         String         @db.ObjectId
+}
+
+model Post {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  body      String?
+  image     String?
+  like      Int?      @default(0)
+  comments  Comment[]
+  author    User      @relation(fields: [userId], references: [id])
+  userId    String    @db.ObjectId
+  createdAt DateTime  @default(now())
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  body      String
+  author    User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  Post      Post     @relation(fields: [postId], references: [id])
+  postId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+}
+
+enum help_direction {
+  PROVIDE
+  REQUEST
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Help_type {
+  OTHER
+  FINANCIAL
+  MEDICAL
+  SHELTER
+  FOOD
+  WATER
+  TRANSPORTATION
+  COMMUNICATION
+  CAR_SEARCH
+}
+
+enum Payment {
+  BOK
+  PHONE
+  FAWRI
+}
+
+enum Contact {
+  PHONE
+  WHATSAPP
+}

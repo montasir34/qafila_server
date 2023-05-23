@@ -1,0 +1,37 @@
+{
+  "name": "qafila_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.ts",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development ts-node-dev --exit-child --respawn src/main.ts",
+    "start": "ts-node src/main.ts",
+    "seed": "ts-node prisma/seed.ts",
+    "build": "npm i && npx prisma generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/node": "20.1.7",
+    "cross-env": "7.0.3",
+    "prisma": "^4.14.1",
+    "ts-node": "10.9.1",
+    "ts-node-dev": "2.0.0",
+    "typescript": "5.0.4"
+  },
+  "dependencies": {
+    "@pothos/core": "^3.30.0",
+    "@pothos/plugin-prisma": "^3.51.1",
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@whatwg-node/server-plugin-cookies": "^0.0.7",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.2",
+    "graphql": "^16.6.0",
+    "graphql-scalars": "^1.21.3",
+    "graphql-yoga": "^3.9.1",
+    "jsonwebtoken": "^9.0.0"
+  }
+}
